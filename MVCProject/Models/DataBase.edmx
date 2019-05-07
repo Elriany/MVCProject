@@ -1,0 +1,613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="mvcProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Adminstrator">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="admin_added" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orderProduct">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prodId" Type="int" />
+          <Property Name="orderId" Type="int" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="orderTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderDate" Type="datetime" />
+          <Property Name="derliveryDate" Type="datetime" />
+          <Property Name="destination" Type="nvarchar" MaxLength="50" />
+          <Property Name="userId" Type="int" />
+          <Property Name="status" Type="bit" />
+          <Property Name="adminId" Type="int" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="descrip" Type="nvarchar" MaxLength="100" />
+          <Property Name="img" Type="nvarchar(max)" />
+          <Property Name="stock" Type="int" />
+          <Property Name="brand" Type="nvarchar" MaxLength="50" />
+          <Property Name="catId" Type="int" />
+          <Property Name="supId" Type="int" />
+          <Property Name="status" Type="bit" />
+          <Property Name="adminId" Type="int" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="passwrd" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="int" />
+          <Property Name="addres" Type="nvarchar" MaxLength="1" />
+          <Property Name="website" Type="nvarchar" MaxLength="1" />
+          <Property Name="adminId" Type="int" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <EntityType Name="userTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="passwrd" Type="nvarchar" MaxLength="50" />
+          <Property Name="cardNumber" Type="int" />
+          <Property Name="phone" Type="int" />
+          <Property Name="addres" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Category__admin___1BFD2C07">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="1" />
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="admin_added" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderProd__order__403A8C7D">
+          <End Role="orderTbl" Type="Self.orderTbl" Multiplicity="0..1" />
+          <End Role="orderProduct" Type="Self.orderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orderTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderProduct">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderProd__prodI__3F466844">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="orderProduct" Type="Self.orderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderProduct">
+              <PropertyRef Name="prodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderTbl__userId__3C69FB99">
+          <End Role="userTbl" Type="Self.userTbl" Multiplicity="0..1" />
+          <End Role="orderTbl" Type="Self.orderTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderTbl">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderTbl_Adminstrator">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="0..1" />
+          <End Role="orderTbl" Type="Self.orderTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderTbl">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_Adminstrator">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="catId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="supId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplier_Adminstrator">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="0..1" />
+          <End Role="supplier" Type="Self.supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supplier">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mvcProjectModelStoreContainer">
+          <EntitySet Name="Adminstrator" EntityType="Self.Adminstrator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderProduct" EntityType="Self.orderProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderTbl" EntityType="Self.orderTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supplier" EntityType="Self.supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userTbl" EntityType="Self.userTbl" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Category__admin___1BFD2C07" Association="Self.FK__Category__admin___1BFD2C07">
+            <End Role="Adminstrator" EntitySet="Adminstrator" />
+            <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderProd__order__403A8C7D" Association="Self.FK__orderProd__order__403A8C7D">
+            <End Role="orderTbl" EntitySet="orderTbl" />
+            <End Role="orderProduct" EntitySet="orderProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderProd__prodI__3F466844" Association="Self.FK__orderProd__prodI__3F466844">
+            <End Role="product" EntitySet="product" />
+            <End Role="orderProduct" EntitySet="orderProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderTbl__userId__3C69FB99" Association="Self.FK__orderTbl__userId__3C69FB99">
+            <End Role="userTbl" EntitySet="userTbl" />
+            <End Role="orderTbl" EntitySet="orderTbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderTbl_Adminstrator" Association="Self.FK_orderTbl_Adminstrator">
+            <End Role="Adminstrator" EntitySet="Adminstrator" />
+            <End Role="orderTbl" EntitySet="orderTbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_Adminstrator" Association="Self.FK_product_Adminstrator">
+            <End Role="Adminstrator" EntitySet="Adminstrator" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_Category" Association="Self.FK_product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_supplier" Association="Self.FK_product_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplier_Adminstrator" Association="Self.FK_supplier_Adminstrator">
+            <End Role="Adminstrator" EntitySet="Adminstrator" />
+            <End Role="supplier" EntitySet="supplier" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mvcProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Adminstrator">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK__Category__admin___1BFD2C07" FromRole="Adminstrator" ToRole="Category" />
+          <NavigationProperty Name="orderTbls" Relationship="Self.FK_orderTbl_Adminstrator" FromRole="Adminstrator" ToRole="orderTbl" />
+          <NavigationProperty Name="products" Relationship="Self.FK_product_Adminstrator" FromRole="Adminstrator" ToRole="product" />
+          <NavigationProperty Name="suppliers" Relationship="Self.FK_supplier_Adminstrator" FromRole="Adminstrator" ToRole="supplier" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_added" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Adminstrator" Relationship="Self.FK__Category__admin___1BFD2C07" FromRole="Category" ToRole="Adminstrator" />
+          <NavigationProperty Name="products" Relationship="Self.FK_product_Category" FromRole="Category" ToRole="product" />
+        </EntityType>
+        <EntityType Name="orderProduct">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prodId" Type="Int32" />
+          <Property Name="orderId" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <NavigationProperty Name="orderTbl" Relationship="Self.FK__orderProd__order__403A8C7D" FromRole="orderProduct" ToRole="orderTbl" />
+          <NavigationProperty Name="product" Relationship="Self.FK__orderProd__prodI__3F466844" FromRole="orderProduct" ToRole="product" />
+        </EntityType>
+        <EntityType Name="orderTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderDate" Type="DateTime" Precision="3" />
+          <Property Name="derliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="destination" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="adminId" Type="Int32" />
+          <NavigationProperty Name="Adminstrator" Relationship="Self.FK_orderTbl_Adminstrator" FromRole="orderTbl" ToRole="Adminstrator" />
+          <NavigationProperty Name="orderProducts" Relationship="Self.FK__orderProd__order__403A8C7D" FromRole="orderTbl" ToRole="orderProduct" />
+          <NavigationProperty Name="userTbl" Relationship="Self.FK__orderTbl__userId__3C69FB99" FromRole="orderTbl" ToRole="userTbl" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descrip" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="stock" Type="Int32" />
+          <Property Name="brand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="catId" Type="Int32" />
+          <Property Name="supId" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="adminId" Type="Int32" />
+          <NavigationProperty Name="Adminstrator" Relationship="Self.FK_product_Adminstrator" FromRole="product" ToRole="Adminstrator" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_product_Category" FromRole="product" ToRole="Category" />
+          <NavigationProperty Name="orderProducts" Relationship="Self.FK__orderProd__prodI__3F466844" FromRole="product" ToRole="orderProduct" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_product_supplier" FromRole="product" ToRole="supplier" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="passwrd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="Int32" />
+          <Property Name="addres" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="adminId" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Adminstrator" Relationship="Self.FK_supplier_Adminstrator" FromRole="supplier" ToRole="Adminstrator" />
+          <NavigationProperty Name="products" Relationship="Self.FK_product_supplier" FromRole="supplier" ToRole="product" />
+        </EntityType>
+        <EntityType Name="userTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="passwrd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cardNumber" Type="Int32" />
+          <Property Name="phone" Type="Int32" />
+          <Property Name="addres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="orderTbls" Relationship="Self.FK__orderTbl__userId__3C69FB99" FromRole="userTbl" ToRole="orderTbl" />
+        </EntityType>
+        <Association Name="FK__Category__admin___1BFD2C07">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="1" />
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="admin_added" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderTbl_Adminstrator">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="0..1" />
+          <End Role="orderTbl" Type="Self.orderTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderTbl">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_Adminstrator">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supplier_Adminstrator">
+          <End Role="Adminstrator" Type="Self.Adminstrator" Multiplicity="0..1" />
+          <End Role="supplier" Type="Self.supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Adminstrator">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supplier">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="catId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderProd__order__403A8C7D">
+          <End Role="orderTbl" Type="Self.orderTbl" Multiplicity="0..1" />
+          <End Role="orderProduct" Type="Self.orderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orderTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderProduct">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderProd__prodI__3F466844">
+          <End Role="product" Type="Self.product" Multiplicity="0..1" />
+          <End Role="orderProduct" Type="Self.orderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderProduct">
+              <PropertyRef Name="prodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orderTbl__userId__3C69FB99">
+          <End Role="userTbl" Type="Self.userTbl" Multiplicity="0..1" />
+          <End Role="orderTbl" Type="Self.orderTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="orderTbl">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="0..1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="supId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mvcProjectEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Adminstrators" EntityType="Self.Adminstrator" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="orderProducts" EntityType="Self.orderProduct" />
+          <EntitySet Name="orderTbls" EntityType="Self.orderTbl" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="suppliers" EntityType="Self.supplier" />
+          <EntitySet Name="userTbls" EntityType="Self.userTbl" />
+          <AssociationSet Name="FK__Category__admin___1BFD2C07" Association="Self.FK__Category__admin___1BFD2C07">
+            <End Role="Adminstrator" EntitySet="Adminstrators" />
+            <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderTbl_Adminstrator" Association="Self.FK_orderTbl_Adminstrator">
+            <End Role="Adminstrator" EntitySet="Adminstrators" />
+            <End Role="orderTbl" EntitySet="orderTbls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_Adminstrator" Association="Self.FK_product_Adminstrator">
+            <End Role="Adminstrator" EntitySet="Adminstrators" />
+            <End Role="product" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supplier_Adminstrator" Association="Self.FK_supplier_Adminstrator">
+            <End Role="Adminstrator" EntitySet="Adminstrators" />
+            <End Role="supplier" EntitySet="suppliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_Category" Association="Self.FK_product_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="product" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderProd__order__403A8C7D" Association="Self.FK__orderProd__order__403A8C7D">
+            <End Role="orderTbl" EntitySet="orderTbls" />
+            <End Role="orderProduct" EntitySet="orderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderProd__prodI__3F466844" Association="Self.FK__orderProd__prodI__3F466844">
+            <End Role="product" EntitySet="products" />
+            <End Role="orderProduct" EntitySet="orderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orderTbl__userId__3C69FB99" Association="Self.FK__orderTbl__userId__3C69FB99">
+            <End Role="userTbl" EntitySet="userTbls" />
+            <End Role="orderTbl" EntitySet="orderTbls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_supplier" Association="Self.FK_product_supplier">
+            <End Role="supplier" EntitySet="suppliers" />
+            <End Role="product" EntitySet="products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mvcProjectModelStoreContainer" CdmEntityContainer="mvcProjectEntities1">
+          <EntitySetMapping Name="Adminstrators">
+            <EntityTypeMapping TypeName="mvcProjectModel.Adminstrator">
+              <MappingFragment StoreEntitySet="Adminstrator">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="mvcProjectModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="admin_added" ColumnName="admin_added" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderProducts">
+            <EntityTypeMapping TypeName="mvcProjectModel.orderProduct">
+              <MappingFragment StoreEntitySet="orderProduct">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="prodId" ColumnName="prodId" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderTbls">
+            <EntityTypeMapping TypeName="mvcProjectModel.orderTbl">
+              <MappingFragment StoreEntitySet="orderTbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="derliveryDate" ColumnName="derliveryDate" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="mvcProjectModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="descrip" ColumnName="descrip" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+                <ScalarProperty Name="brand" ColumnName="brand" />
+                <ScalarProperty Name="catId" ColumnName="catId" />
+                <ScalarProperty Name="supId" ColumnName="supId" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suppliers">
+            <EntityTypeMapping TypeName="mvcProjectModel.supplier">
+              <MappingFragment StoreEntitySet="supplier">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="passwrd" ColumnName="passwrd" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="addres" ColumnName="addres" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userTbls">
+            <EntityTypeMapping TypeName="mvcProjectModel.userTbl">
+              <MappingFragment StoreEntitySet="userTbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="passwrd" ColumnName="passwrd" />
+                <ScalarProperty Name="cardNumber" ColumnName="cardNumber" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="addres" ColumnName="addres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

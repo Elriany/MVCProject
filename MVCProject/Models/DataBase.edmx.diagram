@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="90d3602861fd4e77b6382e057e9080b2" Name="Diagram1">
+        <EntityTypeShape EntityType="mvcProjectModel.Adminstrator" Width="1.5" PointX="4" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mvcProjectModel.Category" Width="1.5" PointX="0.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mvcProjectModel.orderProduct" Width="1.5" PointX="8.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mvcProjectModel.orderTbl" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mvcProjectModel.product" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="mvcProjectModel.supplier" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mvcProjectModel.userTbl" Width="1.5" PointX="6.5" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="mvcProjectModel.FK__Category__admin___1BFD2C07" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK_orderTbl_Adminstrator" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK_product_Adminstrator" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK_supplier_Adminstrator" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK_product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK__orderProd__order__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK__orderProd__prodI__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK__orderTbl__userId__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="mvcProjectModel.FK_product_supplier" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
